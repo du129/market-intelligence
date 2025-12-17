@@ -1,0 +1,9 @@
+# Ignore the version pinning file in Docker
+global.json
+
+# Ignore build artifacts to keep context small
+**/bin
+**/obj
+.git
+.vs
+.vscode

@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework> <!-- Standardize on .NET 8 -->
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Core AI Packages -->
+    <PackageReference Include="Google.Apis.CustomSearchAPI.v1" Version="1.68.0.3520" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="10.0.0" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.20.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.AzureOpenAI" Version="1.20.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.AzureAISearch" Version="1.20.0-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.20.0-alpha" />
+    
+    <!-- FORCE specific Azure SDK version to fix the crash -->
+    <PackageReference Include="Azure.AI.OpenAI" Version="2.0.0-beta.5" />
+
+    <!-- Other Tools -->
+    <PackageReference Include="NewsAPI" Version="0.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" /> <!-- Fix vulnerability -->
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
+    <PackageReference Include="PuppeteerSharp" Version="20.2.4" />
+  </ItemGroup>
+
+  <!-- Shared Library Reference -->
+  <ItemGroup>
+    <ProjectReference Include="..\MarketIntelligence.Shared\MarketIntelligence.Shared.csproj" />
+  </ItemGroup>
+
+  <!-- Copy Config to Output -->
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

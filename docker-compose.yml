@@ -1,0 +1,49 @@
+services:
+  # 1. The Database
+  market-sql:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: market-sql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password123!
+    ports:
+      - "1433:1433"
+
+  # 2. The Worker (Ingestor)
+  market-ingestor:
+    build:
+      context: .
+      dockerfile: MarketIntelligence.Ingestor/Dockerfile
+    container_name: market-ingestor
+    environment:
+      - DB_HOST=market-sql 
+    depends_on:
+      - market-sql
+
+  # 3. The Brain (API)
+  market-api:
+    build:
+      context: .
+      dockerfile: MarketIntelligence.Api/Dockerfile
+    container_name: market-api
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=market-sql
+      - ASPNETCORE_HTTP_PORTS=8080
+    depends_on:
+      - market-sql
+
+  # 4. The Frontend (Website) - THIS WAS MISSING
+  market-web:
+    build:
+      context: MarketIntelligence.React
+      dockerfile: Dockerfile
+    container_name: market-web
+    ports:
+      - "5173:80" # Map localhost:5173 to Nginx port 80
+    depends_on:
+      - market-api
+
+volumes:
+  sql_data:
